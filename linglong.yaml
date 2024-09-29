@@ -1,0 +1,48 @@
+version: "1"
+
+package:
+  id: io.github.Spiderbro-2
+  name: Spiderbro-2
+  version: 2.2.1.0
+  kind: app
+  description: |
+    Sequel to Spiderbro!
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+command:
+  - /opt/apps/io.github.Spiderbro-2/files/bin/spiderbro2_linux
+
+sources:
+  - kind: git
+    url: https://github.com/pforpond/Spiderbro-2.git
+    commit: a5d7be0e3ded82e4800b80a439d2edf9bea5a999
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/c/curl/curl_8.5.0-2_amd64.deb
+    digest: ece439189103419b3cf521c9533b6da1c9a850df02edcd165f4c5b50f8e00bc3
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/c/curl/libcurl4_8.5.0-2_amd64.deb
+    digest: 6e3d5ad17b738939a392e5f7eb00c1f129529834ca62b053e677ad03e6a1e12c
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/c/curl/libcurl4-openssl-dev_8.5.0-2_amd64.deb
+    digest: 273ce1a75b0e8b1e31f0ce3d8441f9c42cfa9729c55ebef528bc2157dc3d7a02
+
+  - kind: file
+    url: https://community-packages.deepin.com/beige/pool/main/w/wget/wget_1.21.2-deepin1_amd64.deb
+    digest: 6b166633f8720879da64150db866f3cd79c6b908844a63e088febe25f65d4838
+
+build: |
+  echo "" > $PREFIX/packages.list
+  bash ./install_dep linglong/sources "$PREFIX"
+  cd /project/linglong/sources/Spiderbro-2.git
+  mkdir -p ${PREFIX}/bin
+  mkdir -p ${PREFIX}/share/applications
+  mkdir -p ${PREFIX}/share/icons/hicolor/256x256/apps
+  cp spiderbro2_linux ${PREFIX}/bin
+  cp -r data ${PREFIX}/bin
+  cp /project/spiderbro.png ${PREFIX}/share/icons/hicolor/256x256/apps/spiderbro.png
+  cp /project/spiderbro.desktop ${PREFIX}/share/applications/spiderbro.desktop
